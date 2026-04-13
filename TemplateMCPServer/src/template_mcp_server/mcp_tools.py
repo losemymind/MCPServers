@@ -1,5 +1,3 @@
-
-
 from fastmcp.contrib.mcp_mixin import MCPMixin, mcp_tool
 
 class TemplateTools(MCPMixin):

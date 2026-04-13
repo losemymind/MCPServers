@@ -12,10 +12,9 @@ from typing import Literal
 from contextlib import AsyncExitStack
 
 from template_mcp_server.mcp_logging import mcp_logger
-from template_mcp_server.template_tools import TemplateTools
+from template_mcp_server.mcp_tools import TemplateTools
 
 logger = mcp_logger.getChild(__name__)
-
 
 MCP_TRANSPORT_HELP="""The transport to use for the MCP server. Defaults to stdio.
     - stdio: Use standard input/output for communication. This is the default and is suitable for simple use cases or when running the server locally.
@@ -38,8 +37,8 @@ def function_02():
 
 
 @click.command()
-@click.option("--root-dir", type=str, default=None, help="The root directory to use for the MCP server.")
-@click.option("--root-git-url", required=True, help="The URL of the root git repository to clone.")
+@click.option("--root-dir",      type=str, default=None, help="The root directory to use for the MCP server.")
+@click.option("--root-git-url",  type=str, default=None, help="The URL of the root git repository to clone.")
 @click.option("--mcp-transport", type=click.Choice(["stdio", "sse", "http", "streamable-http"]), default="stdio", help=MCP_TRANSPORT_HELP)
 async def cli(root_dir: str | None, root_git_url: str | None, mcp_transport : Literal["stdio", "sse", "http", "streamable-http"]):
     if root_dir and root_git_url:
@@ -64,8 +63,8 @@ async def cli(root_dir: str | None, root_git_url: str | None, mcp_transport : Li
 
 
         TemplateTools().register_all(mcp_server=mcp)
-        # or
-        TemplateTools().register_tools(mcp_server=mcp)
+        # or only specific tools:
+        #TemplateTools().register_tools(mcp_server=mcp)
 
         await mcp.run_async(transport=mcp_transport)
 
