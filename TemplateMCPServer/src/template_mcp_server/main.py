@@ -2,17 +2,19 @@ import asyncio
 import tempfile
 import asyncclick as click
 from pathlib import Path
+
 from fastmcp import FastMCP
+from fastmcp.tools import Tool
 from fastmcp.tools import FunctionTool
-from fastmcp.tools.tool import Tool
+
 from git import Repo
 from typing import Literal
 from contextlib import AsyncExitStack
 
-from template_mcp_server.logging import base_logger
+from template_mcp_server.mcp_logging import mcp_logger
 from template_mcp_server.template_tools import TemplateTools
 
-logger = base_logger.getChild("main")
+logger = mcp_logger.getChild(__name__)
 
 
 MCP_TRANSPORT_HELP="""The transport to use for the MCP server. Defaults to stdio.
