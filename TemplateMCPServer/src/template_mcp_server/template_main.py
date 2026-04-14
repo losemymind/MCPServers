@@ -1,8 +1,6 @@
 import asyncio
-
 import asyncclick as click
-from fastmcp import FastMCP
-
+from   fastmcp import FastMCP
 
 @click.command()
 @click.option("--cli-arg-1", type=str, required=True, help="The first argument to pass to the CLI")
