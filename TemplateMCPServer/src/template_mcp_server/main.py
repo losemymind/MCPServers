@@ -15,7 +15,8 @@ from contextlib import AsyncExitStack
 from template_mcp_server.mcp_logging import mcp_logger
 from template_mcp_server.mcp_tools import TemplateTools
 
-from template_mcp_server.mcp_subserver import subserver_mcp
+from template_mcp_server.mcp_subserver0 import subserver_mcp0
+from template_mcp_server.mcp_subserver1 import subserver_mcp1
 
 logger = mcp_logger.getChild(__name__)
 
@@ -72,7 +73,8 @@ async def cli(root_dir: str | None, root_git_url: str | None, mcp_transport : Li
         #TemplateTools().register_tools(mcp_server=mcp)
 
         # Mount the FastMCP sub-servers
-        mcp.mount("subserver0", subserver_mcp)
+        mcp.mount("subserver0", subserver_mcp0)
+        mcp.mount("subserver1", subserver_mcp1)
 
         await mcp.run_async(transport=mcp_transport)
 

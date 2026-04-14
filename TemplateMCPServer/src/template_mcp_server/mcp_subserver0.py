@@ -14,8 +14,8 @@ class SubserverTools(MCPMixin):
         return "This is tool 02"
     
 
-subserver_mcp = FastMCP(name="subserver_mcp")
-SubserverTools().register_all(mcp_server=subserver_mcp)
+subserver_mcp0 = FastMCP(name="subserver_mcp0")
+SubserverTools().register_all(mcp_server=subserver_mcp0)
 
 
 
