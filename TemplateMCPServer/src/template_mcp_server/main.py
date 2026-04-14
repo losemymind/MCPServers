@@ -78,6 +78,13 @@ async def cli(root_dir: str | None, root_git_url: str | None, mcp_transport : Li
 
         await mcp.run_async(transport=mcp_transport)
 
+        # run_kwargs: dict = {}
+        # run_kwargs["transport"] = mcp_transport
+        # run_kwargs["host"]      = "127.0.0.1"
+        # run_kwargs["port"]      = 9090
+
+        # await mcp.run_async(**run_kwargs)
+
 
 def main():
     asyncio.run(cli())
