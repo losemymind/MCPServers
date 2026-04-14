@@ -6,6 +6,7 @@ from pathlib import Path
 from fastmcp import FastMCP
 from fastmcp.tools import Tool
 from fastmcp.tools import FunctionTool
+from fastmcp.client.logging import LogMessage
 
 from git import Repo
 from typing import Literal
@@ -13,6 +14,8 @@ from contextlib import AsyncExitStack
 
 from template_mcp_server.mcp_logging import mcp_logger
 from template_mcp_server.mcp_tools import TemplateTools
+
+from template_mcp_server.mcp_subserver import subserver_mcp
 
 logger = mcp_logger.getChild(__name__)
 
@@ -57,14 +60,19 @@ async def cli(root_dir: str | None, root_git_url: str | None, mcp_transport : Li
 
         mcp: FastMCP[None] = FastMCP(name="Template MCP")
 
+        # Add tools to the MCP server
         _ = mcp.add_tool(tool=FunctionTool.from_function(fn=function_01, name="function_01", description="This is tool 01"))
-
         _ = mcp.add_tool(Tool.from_function(fn=function_02, name="function_02", description="This is tool 02"))
 
-
+        # If you have multiple tools, it's better to organize them in a class that inherits from MCPMixin and 
+        # use the @mcp_tool decorator to define your tools. Then you can register all the tools in that class 
+        # at once with the MCP server.
         TemplateTools().register_all(mcp_server=mcp)
         # or only specific tools:
         #TemplateTools().register_tools(mcp_server=mcp)
+
+        # Mount the FastMCP sub-servers
+        mcp.mount("subserver0", subserver_mcp)
 
         await mcp.run_async(transport=mcp_transport)
 
