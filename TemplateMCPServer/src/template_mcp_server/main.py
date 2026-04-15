@@ -46,7 +46,8 @@ def start_mcp_server():
             creationflags=creationflags,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            text=True
+            text=True,
+            shell=True
         )
 
         logger.info(f"MCP server started with PID: {mcp_server_process.pid}")
